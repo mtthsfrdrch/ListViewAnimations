@@ -85,3 +85,7 @@ tasks.whenTaskAdded { task ->
 }
 
 apply plugin: 'android-reporting'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
