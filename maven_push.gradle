@@ -11,6 +11,9 @@ if (isReleaseBuild()) {
 }
 
 afterEvaluate { project ->
+    if (!project.hasProperty('nexusUsername') || !project.hasProperty('nexusPassword')) {
+        return
+    }
     uploadArchives {
         repositories {
             mavenDeployer {
