@@ -46,14 +46,14 @@ public class GoogleCardsActivity extends BaseActivity implements OnDismissCallba
 
 		ListView listView = (ListView) findViewById(R.id.activity_googlecards_listview);
 
-		mGoogleCardsAdapter = new GoogleCardsAdapter(this);
-		SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(mGoogleCardsAdapter, this));
-		swingBottomInAnimationAdapter.setInitialDelayMillis(300);
-		swingBottomInAnimationAdapter.setAbsListView(listView);
-
-		listView.setAdapter(swingBottomInAnimationAdapter);
-
-		mGoogleCardsAdapter.addAll(getItems());
+//		mGoogleCardsAdapter = new GoogleCardsAdapter(this);
+//		SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(mGoogleCardsAdapter, this));
+//		swingBottomInAnimationAdapter.setInitialDelayMillis(300);
+//		swingBottomInAnimationAdapter.setDynamicListView(listView);
+//
+//		listView.setAdapter(swingBottomInAnimationAdapter);
+//
+//		mGoogleCardsAdapter.addAll(getItems());
 	}
 
 	private ArrayList<Integer> getItems() {

@@ -49,35 +49,35 @@ public class AnimateDismissActivity extends BaseActivity {
 
         mSelectedPositions = new ArrayList<Integer>();
 
-        ListView listView = (ListView) findViewById(R.id.activity_animateremoval_listview);
-        mAdapter = new MyListAdapter(MyListActivity.getItems());
-        final AnimateDismissAdapter animateDismissAdapter = new AnimateDismissAdapter(mAdapter, new MyOnDismissCallback());
-        animateDismissAdapter.setAbsListView(listView);
-        listView.setAdapter(animateDismissAdapter);
-
-        Button button = (Button) findViewById(R.id.activity_animateremoval_button);
-        button.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(final View v) {
-                animateDismissAdapter.animateDismiss(mSelectedPositions);
-                mSelectedPositions.clear();
-            }
-        });
-
-        listView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                CheckedTextView tv = (CheckedTextView) view;
-                tv.toggle();
-                if (tv.isChecked()) {
-                    mSelectedPositions.add(position);
-                } else {
-                    mSelectedPositions.remove((Integer) position);
-                }
-            }
-        });
+//        ListView listView = (ListView) findViewById(R.id.activity_animateremoval_listview);
+//        mAdapter = new MyListAdapter(MyListActivity.getItems());
+//        final AnimateDismissAdapter animateDismissAdapter = new AnimateDismissAdapter(mAdapter, new MyOnDismissCallback());
+//        animateDismissAdapter.setDynamicListView(listView);
+//        listView.setAdapter(animateDismissAdapter);
+//
+//        Button button = (Button) findViewById(R.id.activity_animateremoval_button);
+//        button.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(final View v) {
+//                animateDismissAdapter.animateDismiss(mSelectedPositions);
+//                mSelectedPositions.clear();
+//            }
+//        });
+//
+//        listView.setOnItemClickListener(new OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+//                CheckedTextView tv = (CheckedTextView) view;
+//                tv.toggle();
+//                if (tv.isChecked()) {
+//                    mSelectedPositions.add(position);
+//                } else {
+//                    mSelectedPositions.remove((Integer) position);
+//                }
+//            }
+//        });
     }
 
     private class MyOnDismissCallback implements OnDismissCallback {

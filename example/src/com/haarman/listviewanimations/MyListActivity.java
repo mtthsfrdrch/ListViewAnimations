@@ -26,20 +26,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
+import com.nhaarman.listviewanimations.widget.DynamicListView;
 
 public class MyListActivity extends BaseActivity {
 
-	private ListView mListView;
+	private DynamicListView mListView;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mylist);
-		mListView = (ListView) findViewById(R.id.activity_mylist_listview);
+		mListView = (DynamicListView) findViewById(R.id.activity_mylist_listview);
 		mListView.setDivider(null);
 	}
 
-	public ListView getListView() {
+	public DynamicListView getDynamicListView() {
 		return mListView;
 	}
 
@@ -76,12 +77,12 @@ public class MyListActivity extends BaseActivity {
 
 		@Override
 		public View getView(final int position, final View convertView, final ViewGroup parent) {
-			TextView tv = (TextView) convertView;
-			if (tv == null) {
-				tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
+			View view = convertView;
+			if (view == null) {
+				view =  LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
 			}
-			tv.setText("This is row number " + getItem(position));
-			return tv;
+            ((TextView) view.findViewById(R.id.text)).setText("This is row number " + getItem(position));
+			return view;
 		}
 	}
 }

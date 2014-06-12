@@ -17,10 +17,10 @@ package com.nhaarman.listviewanimations.itemmanipulation.swipedismiss;
 
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.nhaarman.listviewanimations.BaseAdapterDecorator;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
+import com.nhaarman.listviewanimations.widget.DynamicListView;
 
 /**
  * Adds an option to swipe items in an AbsListView away.
@@ -58,13 +58,13 @@ public class SwipeDismissAdapter extends BaseAdapterDecorator {
         mSwipeOnScrollListener = swipeOnScrollListener;
     }
 
-    protected SwipeDismissListViewTouchListener createListViewTouchListener(final AbsListView listView) {
+    protected SwipeDismissListViewTouchListener createListViewTouchListener(final DynamicListView listView) {
         return new SwipeDismissListViewTouchListener(listView, mOnDismissCallback, mSwipeOnScrollListener);
     }
 
     @Override
-    public void setAbsListView(final AbsListView listView) {
-        super.setAbsListView(listView);
+    public void setDynamicListView(final DynamicListView listView) {
+        super.setDynamicListView(listView);
         if (mDecoratedBaseAdapter instanceof ArrayAdapter<?>) {
             ((ArrayAdapter<?>) mDecoratedBaseAdapter).propagateNotifyDataSetChanged(this);
         }

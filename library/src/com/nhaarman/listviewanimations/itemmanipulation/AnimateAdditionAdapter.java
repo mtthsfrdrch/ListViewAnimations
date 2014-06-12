@@ -19,11 +19,11 @@ package com.nhaarman.listviewanimations.itemmanipulation;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.nhaarman.listviewanimations.BaseAdapterDecorator;
+import com.nhaarman.listviewanimations.widget.DynamicListView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -93,15 +93,15 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
     /**
      * @deprecated AnimateAdditionAdapter requires a ListView instance. Use {@link #setListView(android.widget.ListView)} instead.
      */
-    public void setAbsListView(final AbsListView listView) {
+    public void setDynamicListView(final DynamicListView listView) {
         if (!(listView instanceof ListView)) {
             throw new IllegalArgumentException("AnimateAdditionAdapter requires a ListView instance!");
         }
-        super.setAbsListView(listView);
+        super.setDynamicListView(listView);
     }
 
-    public void setListView(final ListView listView) {
-        super.setAbsListView(listView);
+    public void setListView(final DynamicListView listView) {
+        super.setDynamicListView(listView);
     }
 
     /**
@@ -167,7 +167,7 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
         int numInsertedAbove = 0;
 
         for (Pair<Integer, T> pair : indexItemPairs) {
-            if (getAbsListView().getFirstVisiblePosition() > pair.first) {
+            if (getDynamicListView().getFirstVisiblePosition() > pair.first) {
                 /* Inserting an item above the first visible position */
                 int index = pair.first;
 
@@ -183,11 +183,11 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
                 numInsertedAbove++;
 
                 if (mShouldAnimateDown) {
-                    View view = getView(pair.first, null, getAbsListView());
+                    View view = getView(pair.first, null, getDynamicListView());
                     view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                     scrollDistance -= view.getMeasuredHeight();
                 }
-            } else if (getAbsListView().getLastVisiblePosition() >= pair.first) {
+            } else if (getDynamicListView().getLastVisiblePosition() >= pair.first) {
                 /* Inserting an item that becomes visible on screen */
                 int index = pair.first;
 
@@ -223,11 +223,12 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
         }
 
         if (mShouldAnimateDown) {
-            getAbsListView().smoothScrollBy(scrollDistance, (int) (mScrolldownAnimationDurationMs * numInsertedAbove));
+            getDynamicListView().smoothScrollBy(scrollDistance, (int) (mScrolldownAnimationDurationMs * numInsertedAbove));
         }
 
         mInsertQueue.insert(visibleViews);
-        ((ListView) getAbsListView()).setSelectionFromTop(getAbsListView().getFirstVisiblePosition() + numInsertedAbove, getAbsListView().getChildAt(0).getTop());
+        ((ListView) getDynamicListView()).setSelectionFromTop(
+                getDynamicListView().getFirstVisiblePosition() + numInsertedAbove, getDynamicListView().getChildAt(0).getTop());
     }
 
 

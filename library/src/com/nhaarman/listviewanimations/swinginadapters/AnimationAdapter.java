@@ -109,19 +109,19 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
      */
     @SuppressWarnings("UnusedDeclaration")
     public void setShouldAnimateNotVisible() {
-        if (getAbsListView() == null) {
+        if (getDynamicListView() == null) {
             throw new IllegalStateException("Call setListView() on this AnimationAdapter before setShouldAnimateNotVisible()!");
         }
 
         mShouldAnimate = true;
-        mFirstAnimatedPosition = getAbsListView().getLastVisiblePosition();
-        mLastAnimatedPosition = getAbsListView().getLastVisiblePosition();
+        mFirstAnimatedPosition = getDynamicListView().getLastVisiblePosition();
+        mLastAnimatedPosition = getDynamicListView().getLastVisiblePosition();
     }
 
     @Override
     public final View getView(final int position, final View convertView, final ViewGroup parent) {
         if (!mHasParentAnimationAdapter) {
-            if (getAbsListView() == null) {
+            if (getDynamicListView() == null) {
                 throw new IllegalStateException("Call setListView() on this AnimationAdapter before setAdapter()!");
             }
 
@@ -148,7 +148,8 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
     }
 
     private void animateViewIfNecessary(final int position, final View view, final ViewGroup parent) {
-        boolean isMeasuringGridViewItem = getAbsListView() instanceof GridView && parent.getHeight() == 0;
+//        boolean isMeasuringGridViewItem = getDynamicListView() instanceof GridView && parent.getHeight() == 0
+        boolean isMeasuringGridViewItem = false;
 
         if (position > mLastAnimatedPosition && mShouldAnimate && !isMeasuringGridViewItem) {
             if (mFirstAnimatedPosition == -1) {
@@ -206,8 +207,8 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
     private long calculateAnimationDelay() {
         long delay;
 
-        int lastVisiblePosition = getAbsListView().getLastVisiblePosition();
-        int firstVisiblePosition = getAbsListView().getFirstVisiblePosition();
+        int lastVisiblePosition = getDynamicListView().getLastVisiblePosition();
+        int firstVisiblePosition = getDynamicListView().getFirstVisiblePosition();
 
         int numberOfItemsOnScreen = lastVisiblePosition - firstVisiblePosition;
         int numberOfAnimatedItems = mLastAnimatedPosition - mFirstAnimatedPosition;
@@ -215,9 +216,9 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
         if (numberOfItemsOnScreen + 1 < numberOfAnimatedItems) {
             delay = getAnimationDelayMillis();
 
-            if (getAbsListView() instanceof GridView && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                delay += getAnimationDelayMillis() * ((mLastAnimatedPosition + 1) % ((GridView) getAbsListView()).getNumColumns());
-            }
+//            if (getDynamicListView() instanceof GridView && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//                delay += getAnimationDelayMillis() * ((mLastAnimatedPosition + 1) % ((GridView) getDynamicListView()).getNumColumns());
+//            }
         } else {
             long delaySinceStart = (mLastAnimatedPosition - mFirstAnimatedPosition + 1) * getAnimationDelayMillis();
             delay = mAnimationStartMillis + getInitialDelayMillis() + delaySinceStart - System.currentTimeMillis();

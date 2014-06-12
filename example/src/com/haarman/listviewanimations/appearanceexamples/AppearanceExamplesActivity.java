@@ -29,11 +29,7 @@ import com.haarman.listviewanimations.MyListActivity;
 import com.haarman.listviewanimations.R;
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingLeftInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
 
 import java.util.ArrayList;
 
@@ -53,39 +49,39 @@ public class AppearanceExamplesActivity extends MyListActivity implements OnNavi
     }
 
     private void setAlphaAdapter() {
-        AnimationAdapter animAdapter = new AlphaInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+//        AnimationAdapter animAdapter = new AlphaInAnimationAdapter(mAdapter);
+//        animAdapter.setDynamicListView(getDynamicListView());
+//        getDynamicListView().setAdapter(animAdapter);
     }
 
     private void setLeftAdapter() {
         AnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+        animAdapter.setDynamicListView(getDynamicListView());
+        getDynamicListView().setAdapter(animAdapter);
     }
 
     private void setRightAdapter() {
-        AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+//        AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(mAdapter);
+//        animAdapter.setDynamicListView(getDynamicListView());
+//        getDynamicListView().setAdapter(animAdapter);
     }
 
     private void setBottomAdapter() {
-        AnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+//        AnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+//        animAdapter.setDynamicListView(getDynamicListView());
+//        getDynamicListView().setAdapter(animAdapter);
     }
 
     private void setBottomRightAdapter() {
-        AnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(new SwingRightInAnimationAdapter(mAdapter));
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+//        AnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(new SwingRightInAnimationAdapter(mAdapter));
+//        animAdapter.setDynamicListView(getDynamicListView());
+//        getDynamicListView().setAdapter(animAdapter);
     }
 
     private void setScaleAdapter() {
-        AnimationAdapter animAdapter = new ScaleInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(getListView());
-        getListView().setAdapter(animAdapter);
+//        AnimationAdapter animAdapter = new ScaleInAnimationAdapter(mAdapter);
+//        animAdapter.setDynamicListView(getDynamicListView());
+//        getDynamicListView().setAdapter(animAdapter);
     }
 
     @Override

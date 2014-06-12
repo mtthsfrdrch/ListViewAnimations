@@ -42,7 +42,7 @@ public class DragAndDropActivity extends MyListActivity {
 		final ArrayAdapter<Integer> adapter = createListAdapter();
 		AlphaInAnimationAdapter animAdapter = new AlphaInAnimationAdapter(adapter);
 		animAdapter.setInitialDelayMillis(300);
-		animAdapter.setAbsListView(listView);
+		animAdapter.setDynamicListView(listView);
 		listView.setAdapter(animAdapter);
 
 		Toast.makeText(this, "Long press an item to start dragging", Toast.LENGTH_LONG).show();

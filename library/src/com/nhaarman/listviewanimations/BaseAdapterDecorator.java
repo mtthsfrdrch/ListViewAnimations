@@ -18,7 +18,6 @@ package com.nhaarman.listviewanimations;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 
@@ -36,7 +35,7 @@ public abstract class BaseAdapterDecorator extends BaseAdapter implements Sectio
 
 	protected final BaseAdapter mDecoratedBaseAdapter;
 
-	private AbsListView mListView;
+	private DynamicListView mListView;
 
 	private boolean mIsParentHorizontalScrollContainer;
 	private int mResIdTouchChild;
@@ -45,12 +44,11 @@ public abstract class BaseAdapterDecorator extends BaseAdapter implements Sectio
 		mDecoratedBaseAdapter = baseAdapter;
 	}
 
-	@Override
-	public void setAbsListView(final AbsListView listView) {
+	public void setDynamicListView(final DynamicListView listView) {
 		mListView = listView;
 
 		if (mDecoratedBaseAdapter instanceof ListViewSetter) {
-			((ListViewSetter) mDecoratedBaseAdapter).setAbsListView(listView);
+			((ListViewSetter) mDecoratedBaseAdapter).setDynamicListView(listView);
 		}
 
 		if (mListView instanceof DynamicListView) {
@@ -60,7 +58,7 @@ public abstract class BaseAdapterDecorator extends BaseAdapter implements Sectio
 		}
 	}
 
-	public AbsListView getAbsListView() {
+	public DynamicListView getDynamicListView() {
 		return mListView;
 	}
 

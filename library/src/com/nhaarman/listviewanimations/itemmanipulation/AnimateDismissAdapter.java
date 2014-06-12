@@ -67,8 +67,8 @@ public class AnimateDismissAdapter extends BaseAdapterDecorator {
      */
     public void animateDismiss(final Collection<Integer> positions) {
         final List<Integer> positionsCopy = new ArrayList<Integer>(positions);
-        if (getAbsListView() == null) {
-            throw new IllegalStateException("Call setAbsListView() on this AnimateDismissAdapter before calling setAdapter()!");
+        if (getDynamicListView() == null) {
+            throw new IllegalStateException("Call setDynamicListView() on this AnimateDismissAdapter before calling setAdapter()!");
         }
 
         List<View> views = getVisibleViewsForPositions(positionsCopy);
@@ -108,14 +108,14 @@ public class AnimateDismissAdapter extends BaseAdapterDecorator {
         for (int i = 0; i < positionsList.size(); i++) {
             dismissPositions[i] = positionsList.get(positionsList.size() - 1 - i);
         }
-        mCallback.onDismiss(getAbsListView(), dismissPositions);
+        mCallback.onDismiss(getDynamicListView(), dismissPositions);
     }
 
     private List<View> getVisibleViewsForPositions(final Collection<Integer> positions) {
         List<View> views = new ArrayList<View>();
-        for (int i = 0; i < getAbsListView().getChildCount(); i++) {
-            View child = getAbsListView().getChildAt(i);
-            if (positions.contains(AdapterViewUtil.getPositionForView(getAbsListView(), child))) {
+        for (int i = 0; i < getDynamicListView().getChildCount(); i++) {
+            View child = getDynamicListView().getChildAt(i);
+            if (positions.contains(AdapterViewUtil.getPositionForView(getDynamicListView(), child))) {
                 views.add(child);
             }
         }

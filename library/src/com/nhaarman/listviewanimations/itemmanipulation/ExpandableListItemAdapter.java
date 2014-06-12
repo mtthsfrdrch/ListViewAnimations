@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.nhaarman.listviewanimations.ListViewSetter;
 import com.nhaarman.listviewanimations.util.AdapterViewUtil;
+import com.nhaarman.listviewanimations.widget.DynamicListView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -89,7 +90,7 @@ public abstract class ExpandableListItemAdapter<T> extends ArrayAdapter<T> imple
     }
 
     @Override
-    public void setAbsListView(final AbsListView listView) {
+    public void setDynamicListView(final DynamicListView listView) {
         mAbsListView = listView;
     }
 

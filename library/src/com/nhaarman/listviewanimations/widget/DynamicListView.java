@@ -178,14 +178,21 @@ public class DynamicListView extends ListView {
      */
     private OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-            if (mResIdOfDynamicTouchChild == 0) {
-                mDynamicTouchChildTouched = true;
-                makeCellMobile();
-                return true;
-            }
+//            if (mResIdOfDynamicTouchChild == 0) {
+//                mDynamicTouchChildTouched = true;
+//                makeCellMobile();
+//                return true;
+//            }
             return false;
         }
     };
+
+    public void startDragging() {
+        if (mResIdOfDynamicTouchChild == 0) {
+            mDynamicTouchChildTouched = true;
+            makeCellMobile();
+        }
+    }
 
     private void makeCellMobile() {
         int position = pointToPosition(mDownX, mDownY);
@@ -684,6 +691,10 @@ public class DynamicListView extends ListView {
         if (childResId != 0) {
             setIsParentHorizontalScrollContainer(false);
         }
+    }
+
+    public boolean ismCellIsMobile() {
+        return mCellIsMobile;
     }
 
     /**
