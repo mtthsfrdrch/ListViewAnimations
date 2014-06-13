@@ -148,7 +148,6 @@ public class DynamicListView extends ListView {
     }
 
     public void init(Context context) {
-        setOnItemLongClickListener(mOnItemLongClickListener);
         setOnScrollListener(mScrollListener);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         mSmoothScrollAmountAtEdge = (int) (SMOOTH_SCROLL_AMOUNT_AT_EDGE / metrics.density);
@@ -178,11 +177,11 @@ public class DynamicListView extends ListView {
      */
     private OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-//            if (mResIdOfDynamicTouchChild == 0) {
-//                mDynamicTouchChildTouched = true;
-//                makeCellMobile();
-//                return true;
-//            }
+            if (mResIdOfDynamicTouchChild == 0) {
+                mDynamicTouchChildTouched = true;
+                makeCellMobile();
+                return true;
+            }
             return false;
         }
     };
@@ -785,6 +784,14 @@ public class DynamicListView extends ListView {
      */
     public void setOnItemMovedListener(OnItemMovedListener onItemMovedListener) {
         this.mOnItemMovedListener = onItemMovedListener;
+    }
+
+    public void enableDragOnLongClick() {
+        setOnItemLongClickListener(mOnItemLongClickListener);
+    }
+
+    public void disableDragOnLongClick() {
+        setOnItemLongClickListener(null);
     }
 
     /**

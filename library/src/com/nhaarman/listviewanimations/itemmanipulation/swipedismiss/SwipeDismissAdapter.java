@@ -58,13 +58,13 @@ public class SwipeDismissAdapter extends BaseAdapterDecorator {
         mSwipeOnScrollListener = swipeOnScrollListener;
     }
 
-    protected SwipeDismissListViewTouchListener createListViewTouchListener(final DynamicListView listView) {
+    protected SwipeDismissListViewTouchListener createListViewTouchListener(final AbsListView listView) {
         return new SwipeDismissListViewTouchListener(listView, mOnDismissCallback, mSwipeOnScrollListener);
     }
 
     @Override
-    public void setDynamicListView(final DynamicListView listView) {
-        super.setDynamicListView(listView);
+    public void setAbsListView(final AbsListView listView) {
+        super.setAbsListView(listView);
         if (mDecoratedBaseAdapter instanceof ArrayAdapter<?>) {
             ((ArrayAdapter<?>) mDecoratedBaseAdapter).propagateNotifyDataSetChanged(this);
         }

@@ -16,7 +16,7 @@ public class DragSwipeDismissAdapter extends SwipeDismissAdapter {
     }
 
     @Override protected SwipeDismissListViewTouchListener createListViewTouchListener(
-            DynamicListView listView) {
+            AbsListView listView) {
         return new DragSwipeDismissListViewTouchListener(listView, mOnDismissCallback, dragHandleId);
     }
 }

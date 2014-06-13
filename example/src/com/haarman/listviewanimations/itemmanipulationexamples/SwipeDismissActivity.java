@@ -55,8 +55,8 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
 
     private void setSwipeDismissAdapter() {
         DragSwipeDismissAdapter adapter = new DragSwipeDismissAdapter(mAdapter, this, R.id.grabber);
-        adapter.setDynamicListView(getDynamicListView());
-        getDynamicListView().setAdapter(adapter);
+        adapter.setAbsListView(getListView());
+        getListView().setAdapter(adapter);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
 
     private void setContextualUndoAdapter() {
         ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, this);
-        adapter.setDynamicListView(getDynamicListView());
-        getDynamicListView().setAdapter(adapter);
+        adapter.setAbsListView(getListView());
+        getListView().setAdapter(adapter);
     }
 
     @Override
@@ -81,14 +81,14 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
 
     private void setContextualUndoWithTimedDeleteAdapter() {
         ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 3000, this);
-        adapter.setDynamicListView(getDynamicListView());
-        getDynamicListView().setAdapter(adapter);
+        adapter.setAbsListView(getListView());
+        getListView().setAdapter(adapter);
     }
 
     private void setContextualUndoWithTimedDeleteAndCountDownAdapter() {
         ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 3000, R.id.undo_row_texttv, this, new MyFormatCountDownCallback());
-        adapter.setDynamicListView(getDynamicListView());
-        getDynamicListView().setAdapter(adapter);
+        adapter.setAbsListView(getListView());
+        getListView().setAdapter(adapter);
     }
 
     private class MyFormatCountDownCallback implements CountDownFormatter {

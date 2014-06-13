@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import com.nhaarman.listviewanimations.widget.DynamicListView;
 
 public class MyListActivity extends BaseActivity {
 
-	private DynamicListView mListView;
+	private ListView mListView;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MyListActivity extends BaseActivity {
 		mListView.setDivider(null);
 	}
 
-	public DynamicListView getDynamicListView() {
+	public ListView getListView() {
 		return mListView;
 	}
 

@@ -90,7 +90,7 @@ public abstract class ExpandableListItemAdapter<T> extends ArrayAdapter<T> imple
     }
 
     @Override
-    public void setDynamicListView(final DynamicListView listView) {
+    public void setAbsListView(final AbsListView listView) {
         mAbsListView = listView;
     }
 

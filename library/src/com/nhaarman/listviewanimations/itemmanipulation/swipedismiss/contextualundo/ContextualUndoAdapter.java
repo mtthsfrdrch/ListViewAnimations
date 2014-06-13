@@ -163,8 +163,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     }
 
     @Override
-    public void setDynamicListView(final DynamicListView listView) {
-        super.setDynamicListView(listView);
+    public void setAbsListView(final AbsListView listView) {
+        super.setAbsListView(listView);
         mContextualUndoListViewTouchListener = new ContextualUndoListViewTouchListener(listView, this);
         mContextualUndoListViewTouchListener.setIsParentHorizontalScrollContainer(isParentHorizontalScrollContainer());
         mContextualUndoListViewTouchListener.setTouchChild(getTouchChild());
@@ -197,7 +197,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     private ContextualUndoView getContextualUndoView(final long dismissViewItemId) {
         ContextualUndoView contextualUndoView = null;
 
-        AbsListView listView = getDynamicListView();
+        AbsListView listView = getAbsListView();
         int childCount = listView.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = listView.getChildAt(i);
@@ -292,7 +292,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         if (result == null ||
                 result.getParent() == null ||
                 result.getItemId() != itemId ||
-                AdapterViewUtil.getPositionForView(getDynamicListView(), result) < 0) {
+                AdapterViewUtil.getPositionForView(getAbsListView(), result) < 0) {
             result = getContextualUndoView(itemId);
         }
         return result;
@@ -321,8 +321,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      */
     public void swipeViewAtPosition(final int position) {
         mCurrentRemovedId = getItemId(position);
-        for (int i = 0; i < getDynamicListView().getChildCount(); i++) {
-            AbsListView absListView = getDynamicListView();
+        for (int i = 0; i < getAbsListView().getChildCount(); i++) {
+            AbsListView absListView = getAbsListView();
             View childView = absListView.getChildAt(i);
             int positionForView = AdapterViewUtil.getPositionForView(absListView, childView);
             if (positionForView == position) {
@@ -472,7 +472,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         }
 
         private void deleteCurrentItem(final View view) {
-            int position = AdapterViewUtil.getPositionForView(getDynamicListView(), view);
+            int position = AdapterViewUtil.getPositionForView(getAbsListView(), view);
             mDeleteItemCallback.deleteItem(position);
         }
 

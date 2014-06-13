@@ -43,13 +43,13 @@ public class AnimateAdditionActivity extends MyListActivity implements AdapterVi
 
         MyAdapter myAdapter = new MyAdapter(this, getStringItems());
 
-//        mAnimateAdditionAdapter = new AnimateAdditionAdapter<String>(myAdapter);
-//        mAnimateAdditionAdapter.setListView(getDynamicListView());
-//
-//        getDynamicListView().setAdapter(mAnimateAdditionAdapter);
-//        getDynamicListView().setOnItemClickListener(this);
-//
-//        Toast.makeText(this, "Tap on an item to insert a new item", Toast.LENGTH_LONG).show();
+        mAnimateAdditionAdapter = new AnimateAdditionAdapter<String>(myAdapter);
+        mAnimateAdditionAdapter.setListView(getListView());
+
+        getListView().setAdapter(mAnimateAdditionAdapter);
+        getListView().setOnItemClickListener(this);
+
+        Toast.makeText(this, "Tap on an item to insert a new item", Toast.LENGTH_LONG).show();
     }
 
     private static ArrayList<String> getStringItems() {

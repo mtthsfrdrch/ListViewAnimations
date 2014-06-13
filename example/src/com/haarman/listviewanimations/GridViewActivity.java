@@ -30,13 +30,13 @@ public class GridViewActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gridview);
 
-//		GridView gridView = (GridView) findViewById(R.id.activity_gridview_gv);
-//		SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new MyAdapter(this, getItems()));
-//		swingBottomInAnimationAdapter.setDynamicListView(gridView);
-//		swingBottomInAnimationAdapter.setInitialDelayMillis(300);
-//		gridView.setAdapter(swingBottomInAnimationAdapter);
-//
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		GridView gridView = (GridView) findViewById(R.id.activity_gridview_gv);
+		SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new MyAdapter(this, getItems()));
+		swingBottomInAnimationAdapter.setAbsListView(gridView);
+		swingBottomInAnimationAdapter.setInitialDelayMillis(300);
+		gridView.setAdapter(swingBottomInAnimationAdapter);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	private ArrayList<Integer> getItems() {

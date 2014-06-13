@@ -33,6 +33,7 @@ public class DragAndDropActivity extends MyListActivity {
 		setContentView(R.layout.activity_draganddrop);
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.activity_draganddrop_listview);
+        listView.enableDragOnLongClick();
 		listView.setDivider(null);
 
         TextView headerView =new TextView(this);
@@ -42,7 +43,7 @@ public class DragAndDropActivity extends MyListActivity {
 		final ArrayAdapter<Integer> adapter = createListAdapter();
 		AlphaInAnimationAdapter animAdapter = new AlphaInAnimationAdapter(adapter);
 		animAdapter.setInitialDelayMillis(300);
-		animAdapter.setDynamicListView(listView);
+		animAdapter.setAbsListView(listView);
 		listView.setAdapter(animAdapter);
 
 		Toast.makeText(this, "Long press an item to start dragging", Toast.LENGTH_LONG).show();

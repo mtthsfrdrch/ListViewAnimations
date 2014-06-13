@@ -46,9 +46,9 @@ public class ExpandableListItemActivity extends MyListActivity {
 
         mExpandableListItemAdapter = new MyExpandableListItemAdapter(this, getItems());
         AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(mExpandableListItemAdapter);
-        alphaInAnimationAdapter.setDynamicListView(getDynamicListView());
+        alphaInAnimationAdapter.setAbsListView(getListView());
         alphaInAnimationAdapter.setInitialDelayMillis(500);
-        getDynamicListView().setAdapter(alphaInAnimationAdapter);
+        getListView().setAdapter(alphaInAnimationAdapter);
 
         Toast.makeText(this, R.string.explainexpand, Toast.LENGTH_LONG).show();
     }

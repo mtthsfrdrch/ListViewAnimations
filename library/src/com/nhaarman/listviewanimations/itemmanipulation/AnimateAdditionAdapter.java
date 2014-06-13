@@ -19,6 +19,7 @@ package com.nhaarman.listviewanimations.itemmanipulation;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -93,15 +94,15 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
     /**
      * @deprecated AnimateAdditionAdapter requires a ListView instance. Use {@link #setListView(android.widget.ListView)} instead.
      */
-    public void setDynamicListView(final DynamicListView listView) {
+    public void setAbsListView(final AbsListView listView) {
         if (!(listView instanceof ListView)) {
             throw new IllegalArgumentException("AnimateAdditionAdapter requires a ListView instance!");
         }
-        super.setDynamicListView(listView);
+        super.setAbsListView(listView);
     }
 
-    public void setListView(final DynamicListView listView) {
-        super.setDynamicListView(listView);
+    public void setListView(final ListView listView) {
+        super.setAbsListView(listView);
     }
 
     /**
@@ -167,7 +168,7 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
         int numInsertedAbove = 0;
 
         for (Pair<Integer, T> pair : indexItemPairs) {
-            if (getDynamicListView().getFirstVisiblePosition() > pair.first) {
+            if (getAbsListView().getFirstVisiblePosition() > pair.first) {
                 /* Inserting an item above the first visible position */
                 int index = pair.first;
 
@@ -183,11 +184,11 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
                 numInsertedAbove++;
 
                 if (mShouldAnimateDown) {
-                    View view = getView(pair.first, null, getDynamicListView());
+                    View view = getView(pair.first, null, getAbsListView());
                     view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                     scrollDistance -= view.getMeasuredHeight();
                 }
-            } else if (getDynamicListView().getLastVisiblePosition() >= pair.first) {
+            } else if (getAbsListView().getLastVisiblePosition() >= pair.first) {
                 /* Inserting an item that becomes visible on screen */
                 int index = pair.first;
 
@@ -223,12 +224,12 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
         }
 
         if (mShouldAnimateDown) {
-            getDynamicListView().smoothScrollBy(scrollDistance, (int) (mScrolldownAnimationDurationMs * numInsertedAbove));
+            getAbsListView().smoothScrollBy(scrollDistance, (int) (mScrolldownAnimationDurationMs * numInsertedAbove));
         }
 
         mInsertQueue.insert(visibleViews);
-        ((ListView) getDynamicListView()).setSelectionFromTop(
-                getDynamicListView().getFirstVisiblePosition() + numInsertedAbove, getDynamicListView().getChildAt(0).getTop());
+        ((ListView) getAbsListView()).setSelectionFromTop(
+                getAbsListView().getFirstVisiblePosition() + numInsertedAbove, getAbsListView().getChildAt(0).getTop());
     }
 
 
