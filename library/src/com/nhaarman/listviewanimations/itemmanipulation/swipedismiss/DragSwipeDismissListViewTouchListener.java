@@ -115,14 +115,16 @@ public class DragSwipeDismissListViewTouchListener extends SwipeDismissListViewT
         if (mHitPos != MISS) {
 //            startDrag(mHitPos, (int) ev.getX() - mItemX, (int) ev.getY() - mItemY);
             ((DynamicListView)mListView).startDragging();
+            mCanDrag = true;
+            return true;
         }
 
 //        mIsRemoving = false;
-        mCanDrag = true;
+
 //        mPositionX = 0;
 //        mFlingHitPos = startFlingPosition(ev);
 
-        return true;
+        return false;
     }
 
     @Override public void onShowPress(MotionEvent e) {
