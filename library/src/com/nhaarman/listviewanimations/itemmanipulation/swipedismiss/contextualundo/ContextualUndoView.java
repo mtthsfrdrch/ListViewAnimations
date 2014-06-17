@@ -19,21 +19,26 @@ package com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextual
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
 @SuppressLint("ViewConstructor")
 public class ContextualUndoView extends FrameLayout {
 
     private View mUndoView;
     private View mContentView;
+    private int undoColor;
     private TextView mCountDownTV;
 
     private long mItemId;
 
-    public ContextualUndoView(final Context context, final int undoLayoutResId, final int countDownTextViewResId) {
+    public ContextualUndoView(final Context context, final int undoLayoutResId, int undoColor, final int countDownTextViewResId) {
         super(context);
         initUndo(undoLayoutResId, countDownTextViewResId);
+        this.undoColor = undoColor;
     }
 
     private void initUndo(final int undoLayoutResId, final int countDownTextViewResId) {
@@ -77,7 +82,16 @@ public class ContextualUndoView extends FrameLayout {
     public void displayUndo() {
         updateCountDownTimer("");
         mContentView.setVisibility(View.INVISIBLE);
+        setBackgroundColor(getResources().getColor(undoColor));
+        mUndoView.setAlpha(0.0f);
         mUndoView.setVisibility(View.VISIBLE);
+        com.nineoldandroids.view.ViewPropertyAnimator.animate(mUndoView).alpha(1.0f).setListener(new AnimatorListenerAdapter() {
+
+            @Override public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
+        });
     }
 
     public void displayContentView() {

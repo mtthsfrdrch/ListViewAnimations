@@ -60,6 +60,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     private final int mUndoLayoutId;
     private final int mUndoActionId;
+    private final int undoColor;
     private final int mCountDownTextViewResId;
     private final int mAutoDeleteDelayMillis;
 
@@ -84,8 +85,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param undoActionId The id of the component which undoes the dismissal
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutId, final int undoActionId, final DeleteItemCallback deleteItemCallback) {
-        this(baseAdapter, undoLayoutId, undoActionId, -1, -1, deleteItemCallback, null);
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutId, final int undoActionId, final int undoColor, final DeleteItemCallback deleteItemCallback) {
+        this(baseAdapter, undoLayoutId, undoActionId, undoColor, -1, -1, deleteItemCallback, null);
     }
 
     /**
@@ -98,8 +99,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param autoDeleteTimeMillis The time in milliseconds that the adapter will wait for he user to hit undo before automatically deleting the item
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int autoDeleteTimeMillis, final DeleteItemCallback deleteItemCallback) {
-        this(baseAdapter, undoLayoutResId, undoActionResId, autoDeleteTimeMillis, -1, deleteItemCallback, null);
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColor, final int autoDeleteTimeMillis, final DeleteItemCallback deleteItemCallback) {
+        this(baseAdapter, undoLayoutResId, undoActionResId, undoColor, autoDeleteTimeMillis, -1, deleteItemCallback, null);
     }
 
     /**
@@ -114,7 +115,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      * @param countDownFormatter The {@link CountDownFormatter} which provides text to be shown in the {@link TextView} as specified by countDownTextViewResId
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int autoDeleteTime, final int countDownTextViewResId,
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColor, final int autoDeleteTime, final int countDownTextViewResId,
                                  final DeleteItemCallback deleteItemCallback, final CountDownFormatter countDownFormatter) {
         super(baseAdapter);
 
@@ -123,6 +124,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
         mUndoLayoutId = undoLayoutResId;
         mUndoActionId = undoActionResId;
+        this.undoColor = undoColor;
         mCurrentRemovedId = -1;
         mAutoDeleteDelayMillis = autoDeleteTime;
         mCountDownTextViewResId = countDownTextViewResId;
@@ -136,7 +138,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         final ViewHolder vh;
         ContextualUndoView contextualUndoView = (ContextualUndoView) convertView;
         if (contextualUndoView == null) {
-            contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId, mCountDownTextViewResId);
+            contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId, undoColor, mCountDownTextViewResId);
             contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(contextualUndoView));
             vh = new ViewHolder(contextualUndoView);
         } else {

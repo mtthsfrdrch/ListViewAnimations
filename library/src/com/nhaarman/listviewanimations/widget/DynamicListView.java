@@ -132,6 +132,8 @@ public class DynamicListView extends ListView {
     private OnItemMovedListener mOnItemMovedListener;
     private int mLastMovedToIndex;
 
+    private DragListener dragListener;
+
     public DynamicListView(Context context) {
         super(context);
         init(context);
@@ -218,6 +220,7 @@ public class DynamicListView extends ListView {
         getParent().requestDisallowInterceptTouchEvent(true);
 
         updateNeighborViewsForId(mMobileItemId);
+        if (dragListener != null) dragListener.onDrag();
     }
 
     /**
@@ -792,6 +795,14 @@ public class DynamicListView extends ListView {
 
     public void disableDragOnLongClick() {
         setOnItemLongClickListener(null);
+    }
+
+    public void setDragListener(DragListener dragListener) {
+        this.dragListener = dragListener;
+    }
+
+    public interface DragListener {
+        public void onDrag();
     }
 
     /**

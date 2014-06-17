@@ -42,6 +42,7 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         mAdapter = createListAdapter();
@@ -68,7 +69,7 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
     }
 
     private void setContextualUndoAdapter() {
-        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, this);
+        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 0, this);
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }
@@ -86,7 +87,7 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
     }
 
     private void setContextualUndoWithTimedDeleteAndCountDownAdapter() {
-        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 3000, R.id.undo_row_texttv, this, new MyFormatCountDownCallback());
+        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 0, 3000, R.id.undo_row_texttv, this, new MyFormatCountDownCallback());
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }

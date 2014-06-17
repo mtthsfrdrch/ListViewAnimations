@@ -246,8 +246,8 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
         if (mSwiping) {
             setTranslationX(mDownView, deltaX);
             //noinspection MagicNumber
-            setAlpha(mDownView, Math.max(0f, Math.min(1f, 1f - 2f * Math.abs(deltaX) / mViewWidth)));
-
+//            setAlpha(mDownView, Math.max(0f, Math.min(1f, 1f - 1.2f * Math.abs(deltaX) / mViewWidth)));
+            if (swipeAnimationListener != null) swipeAnimationListener.onSwipeProgress(mDownView);
             return true;
         }
         return false;
@@ -284,11 +284,17 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
                 @Override
                 public void onAnimationEnd(final Animator animation) {
                     mCallback.onViewSwiped(itemId, downPosition);
+                    if (swipeAnimationListener != null) swipeAnimationListener.onSwipeEnded();
                 }
             });
         } else {
             // cancel
-            animate(mDownView).translationX(0).alpha(1).setDuration(mAnimationTime).setListener(null);
+            animate(mDownView).translationX(0).alpha(1).setDuration(mAnimationTime).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(final Animator animation) {
+                    if (swipeAnimationListener != null) swipeAnimationListener.onSwipeEnded();
+                }
+            });
         }
 
         mVelocityTracker.recycle();
