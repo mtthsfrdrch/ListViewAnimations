@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeAnimationListener;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeOnTouchListener;
 import com.nhaarman.listviewanimations.util.AdapterViewUtil;
 import com.nineoldandroids.animation.Animator;
@@ -69,6 +70,9 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
     private boolean mIsParentHorizontalScrollContainer;
     private int mResIdOfTouchChild;
     private boolean mTouchChildTouched;
+
+    private SwipeAnimationListener swipeAnimationListener;
+
 
     private DismissableManager mDismissableManager;
 
@@ -243,6 +247,7 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
             setTranslationX(mDownView, deltaX);
             //noinspection MagicNumber
             setAlpha(mDownView, Math.max(0f, Math.min(1f, 1f - 2f * Math.abs(deltaX) / mViewWidth)));
+
             return true;
         }
         return false;
@@ -298,6 +303,10 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
     @Override
     public boolean isSwiping() {
         return mSwiping;
+    }
+
+    public void setSwipeListener(SwipeAnimationListener swipeListener) {
+        swipeAnimationListener = swipeListener;
     }
 
     private Rect getChildViewRect(final View parentView, View childView) {

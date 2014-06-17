@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.BaseAdapterDecorator;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeAnimationListener;
 import com.nhaarman.listviewanimations.util.AdapterViewUtil;
 import com.nhaarman.listviewanimations.widget.DynamicListView;
 import com.nineoldandroids.animation.Animator;
@@ -398,6 +399,10 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         mHandler.removeCallbacks(mCountDownRunnable);
     }
 
+    public void setSwipeAnimationListener(SwipeAnimationListener swipeListener) {
+        mContextualUndoListViewTouchListener.setSwipeListener(swipeListener);
+    }
+
     /**
      * A callback interface which is used to notify when items should be removed from the collection.
      */
@@ -500,6 +505,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
         @Override
         public void onAnimationUpdate(final ValueAnimator valueAnimator) {
+            System.out.println("Remove, onAnimationUpdate");
             ContextualUndoView dismissView = mParentAdapter.getViewBeingAnimated();
             if (dismissView != null) {
                 mLayoutParams.height = (Integer) valueAnimator.getAnimatedValue();

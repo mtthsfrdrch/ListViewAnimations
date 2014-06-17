@@ -7,8 +7,12 @@ if (isReleaseBuild()) {
     sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 } else {
     println 'DEBUG BUILD'
-    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+    sonatypeRepositoryUrl = "http://mobile-slave03" +
+      ":8081/nexus/content/repositories/snapshots"
 }
+
+
+
 
 afterEvaluate { project ->
     if (!project.hasProperty('nexusUsername') || !project.hasProperty('nexusPassword')) {
