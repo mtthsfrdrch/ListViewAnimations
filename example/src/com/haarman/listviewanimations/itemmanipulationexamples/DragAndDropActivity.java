@@ -33,7 +33,7 @@ public class DragAndDropActivity extends MyListActivity {
 		setContentView(R.layout.activity_draganddrop);
 
         DynamicListView listView = (DynamicListView) findViewById(R.id.activity_draganddrop_listview);
-        listView.enableDragOnLongClick();
+        listView.enableMobileCellOnLongClick();
 		listView.setDivider(null);
 
         TextView headerView =new TextView(this);

@@ -27,9 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.BaseAdapterDecorator;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeAnimationListener;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeProgressListener;
 import com.nhaarman.listviewanimations.util.AdapterViewUtil;
-import com.nhaarman.listviewanimations.widget.DynamicListView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -54,13 +53,16 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 @SuppressWarnings("UnusedDeclaration")
 public class ContextualUndoAdapter extends BaseAdapterDecorator implements ContextualUndoListViewTouchListener.Callback {
 
+    public static final float FADE_ON_SWIPE_NONE = -1f;
+    public static final float FADE_ON_SWIPE_DEFAULT = 2f;
+
     private static final int ANIMATION_DURATION = 150;
     private static final String EXTRA_ACTIVE_REMOVED_ID = "removedId";
     private static final String X = "x";
 
     private final int mUndoLayoutId;
     private final int mUndoActionId;
-    private final int undoColor;
+    private final int mUndoColorId;
     private final int mCountDownTextViewResId;
     private final int mAutoDeleteDelayMillis;
 
@@ -76,6 +78,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     private final CountDownFormatter mCountDownFormatter;
 
     private ContextualUndoListViewTouchListener mContextualUndoListViewTouchListener;
+    private float mFadeOutMultiplicator = FADE_ON_SWIPE_DEFAULT;
 
     /**
      * Create a new ContextualUndoAdapter based on given parameters.
@@ -85,8 +88,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param undoActionId The id of the component which undoes the dismissal
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutId, final int undoActionId, final int undoColor, final DeleteItemCallback deleteItemCallback) {
-        this(baseAdapter, undoLayoutId, undoActionId, undoColor, -1, -1, deleteItemCallback, null);
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutId, final int undoActionId, final int undoColorId, final DeleteItemCallback deleteItemCallback) {
+        this(baseAdapter, undoLayoutId, undoActionId, undoColorId, -1, -1, deleteItemCallback, null);
     }
 
     /**
@@ -99,8 +102,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param autoDeleteTimeMillis The time in milliseconds that the adapter will wait for he user to hit undo before automatically deleting the item
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColor, final int autoDeleteTimeMillis, final DeleteItemCallback deleteItemCallback) {
-        this(baseAdapter, undoLayoutResId, undoActionResId, undoColor, autoDeleteTimeMillis, -1, deleteItemCallback, null);
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColorId, final int autoDeleteTimeMillis, final DeleteItemCallback deleteItemCallback) {
+        this(baseAdapter, undoLayoutResId, undoActionResId, undoColorId, autoDeleteTimeMillis, -1, deleteItemCallback, null);
     }
 
     /**
@@ -115,7 +118,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      * @param countDownFormatter The {@link CountDownFormatter} which provides text to be shown in the {@link TextView} as specified by countDownTextViewResId
      */
-    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColor, final int autoDeleteTime, final int countDownTextViewResId,
+    public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int undoColorId, final int autoDeleteTime, final int countDownTextViewResId,
                                  final DeleteItemCallback deleteItemCallback, final CountDownFormatter countDownFormatter) {
         super(baseAdapter);
 
@@ -124,7 +127,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
         mUndoLayoutId = undoLayoutResId;
         mUndoActionId = undoActionResId;
-        this.undoColor = undoColor;
+        mUndoColorId = undoColorId;
         mCurrentRemovedId = -1;
         mAutoDeleteDelayMillis = autoDeleteTime;
         mCountDownTextViewResId = countDownTextViewResId;
@@ -138,7 +141,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         final ViewHolder vh;
         ContextualUndoView contextualUndoView = (ContextualUndoView) convertView;
         if (contextualUndoView == null) {
-            contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId, undoColor, mCountDownTextViewResId);
+            contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId,
+                    mUndoColorId, mCountDownTextViewResId);
             contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(contextualUndoView));
             vh = new ViewHolder(contextualUndoView);
         } else {
@@ -169,6 +173,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     public void setAbsListView(final AbsListView listView) {
         super.setAbsListView(listView);
         mContextualUndoListViewTouchListener = new ContextualUndoListViewTouchListener(listView, this);
+        mContextualUndoListViewTouchListener.setFadeOutOnSwipeDelayMultiplicator(mFadeOutMultiplicator);
         mContextualUndoListViewTouchListener.setIsParentHorizontalScrollContainer(isParentHorizontalScrollContainer());
         mContextualUndoListViewTouchListener.setTouchChild(getTouchChild());
         listView.setOnTouchListener(mContextualUndoListViewTouchListener);
@@ -401,8 +406,22 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         mHandler.removeCallbacks(mCountDownRunnable);
     }
 
-    public void setSwipeAnimationListener(SwipeAnimationListener swipeListener) {
+    public void setSwipeProgressListener(SwipeProgressListener swipeListener) {
         mContextualUndoListViewTouchListener.setSwipeListener(swipeListener);
+    }
+
+    /**
+     * Setter to define when/how a item should fade out during swipe.
+     * Per default a item fades out completely, when it is swiped out for half of its size.
+     * The default multiplicator is 2f.
+     * Use {@link com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter.NO_FADE_ON_SWIPE} to deactivate fading completely.
+     *
+     * @param multiplicator value to influence the fade out animation
+     */
+    public void setFadeOutOnSwipeDelayMultiplicator(float multiplicator) {
+        this.mFadeOutMultiplicator = multiplicator;
+        if (mContextualUndoListViewTouchListener != null)
+            mContextualUndoListViewTouchListener.setFadeOutOnSwipeDelayMultiplicator(multiplicator);
     }
 
     /**

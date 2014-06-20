@@ -132,7 +132,7 @@ public class DynamicListView extends ListView {
     private OnItemMovedListener mOnItemMovedListener;
     private int mLastMovedToIndex;
 
-    private DragListener dragListener;
+    private MobileCellListener mobileCellListener;
 
     public DynamicListView(Context context) {
         super(context);
@@ -188,13 +188,6 @@ public class DynamicListView extends ListView {
         }
     };
 
-    public void startDragging() {
-        if (mResIdOfDynamicTouchChild == 0) {
-            mDynamicTouchChildTouched = true;
-            makeCellMobile();
-        }
-    }
-
     private void makeCellMobile() {
         int position = pointToPosition(mDownX, mDownY);
         int itemNum = position - getFirstVisiblePosition();
@@ -220,7 +213,7 @@ public class DynamicListView extends ListView {
         getParent().requestDisallowInterceptTouchEvent(true);
 
         updateNeighborViewsForId(mMobileItemId);
-        if (dragListener != null) dragListener.onDrag();
+        if (mobileCellListener != null) mobileCellListener.onCellGoesMobile(mMobileItemId);
     }
 
     /**
@@ -789,20 +782,23 @@ public class DynamicListView extends ListView {
         this.mOnItemMovedListener = onItemMovedListener;
     }
 
-    public void enableDragOnLongClick() {
+    public void enableMobileCellOnLongClick() {
         setOnItemLongClickListener(mOnItemLongClickListener);
     }
 
-    public void disableDragOnLongClick() {
+    public void disableMobileCellOnLongClick() {
         setOnItemLongClickListener(null);
     }
 
-    public void setDragListener(DragListener dragListener) {
-        this.dragListener = dragListener;
+    public void setMobileCellListener(MobileCellListener mobileCellListener) {
+        this.mobileCellListener = mobileCellListener;
     }
 
-    public interface DragListener {
-        public void onDrag();
+    public interface MobileCellListener {
+
+        public void onCellGoesMobile(long cellId);
+
+        public void onCellLeftMobile(long cellId);
     }
 
     /**

@@ -30,7 +30,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeAnimationListener;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeProgressListener;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeOnTouchListener;
 import com.nhaarman.listviewanimations.util.AdapterViewUtil;
 import com.nineoldandroids.animation.Animator;
@@ -66,12 +66,13 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
     private View mDownView;
     private boolean mPaused;
     private boolean mDisallowSwipe;
+    private float mFadeOutDelayMultiplicator = 2f;
 
     private boolean mIsParentHorizontalScrollContainer;
     private int mResIdOfTouchChild;
     private boolean mTouchChildTouched;
 
-    private SwipeAnimationListener swipeAnimationListener;
+    private SwipeProgressListener swipeProgressListener;
 
 
     private DismissableManager mDismissableManager;
@@ -246,8 +247,9 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
         if (mSwiping) {
             setTranslationX(mDownView, deltaX);
             //noinspection MagicNumber
-//            setAlpha(mDownView, Math.max(0f, Math.min(1f, 1f - 1.2f * Math.abs(deltaX) / mViewWidth)));
-            if (swipeAnimationListener != null) swipeAnimationListener.onSwipeProgress(mDownView);
+            if (mFadeOutDelayMultiplicator != ContextualUndoAdapter.FADE_ON_SWIPE_NONE)
+                setAlpha(mDownView, Math.max(0f, Math.min(1f, 1f - mFadeOutDelayMultiplicator * Math.abs(deltaX) / mViewWidth)));
+            if (swipeProgressListener != null) swipeProgressListener.onSwipeProgress(mDownView);
             return true;
         }
         return false;
@@ -284,7 +286,7 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
                 @Override
                 public void onAnimationEnd(final Animator animation) {
                     mCallback.onViewSwiped(itemId, downPosition);
-                    if (swipeAnimationListener != null) swipeAnimationListener.onSwipeEnded();
+                    if (swipeProgressListener != null) swipeProgressListener.onSwipeEnded(mDownView);
                 }
             });
         } else {
@@ -292,7 +294,7 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
             animate(mDownView).translationX(0).alpha(1).setDuration(mAnimationTime).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(final Animator animation) {
-                    if (swipeAnimationListener != null) swipeAnimationListener.onSwipeEnded();
+                    if (swipeProgressListener != null) swipeProgressListener.onSwipeEnded(mDownView);
                 }
             });
         }
@@ -311,8 +313,8 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
         return mSwiping;
     }
 
-    public void setSwipeListener(SwipeAnimationListener swipeListener) {
-        swipeAnimationListener = swipeListener;
+    public void setSwipeListener(SwipeProgressListener swipeListener) {
+        swipeProgressListener = swipeListener;
     }
 
     private Rect getChildViewRect(final View parentView, View childView) {
@@ -340,5 +342,9 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
         if (childResId != 0) {
             setIsParentHorizontalScrollContainer(false);
         }
+    }
+
+    public void setFadeOutOnSwipeDelayMultiplicator(float multiplicator) {
+        this.mFadeOutDelayMultiplicator = multiplicator;
     }
 }

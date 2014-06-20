@@ -29,7 +29,7 @@ import com.haarman.listviewanimations.MyListActivity;
 import com.haarman.listviewanimations.R;
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DragSwipeDismissAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter.CountDownFormatter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
@@ -55,7 +55,7 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
     }
 
     private void setSwipeDismissAdapter() {
-        DragSwipeDismissAdapter adapter = new DragSwipeDismissAdapter(mAdapter, this, R.id.grabber);
+        SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, this);
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }
@@ -69,7 +69,7 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
     }
 
     private void setContextualUndoAdapter() {
-        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 0, this);
+        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, R.color.bg_undo, this);
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }
@@ -81,13 +81,13 @@ public class SwipeDismissActivity extends MyListActivity implements OnNavigation
     }
 
     private void setContextualUndoWithTimedDeleteAdapter() {
-        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 3000, this);
+        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, R.color.bg_undo, 3000, this);
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }
 
     private void setContextualUndoWithTimedDeleteAndCountDownAdapter() {
-        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, 0, 3000, R.id.undo_row_texttv, this, new MyFormatCountDownCallback());
+        ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton, R.color.bg_undo, 3000, R.id.undo_row_texttv, this, new MyFormatCountDownCallback());
         adapter.setAbsListView(getListView());
         getListView().setAdapter(adapter);
     }
